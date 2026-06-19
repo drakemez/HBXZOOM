@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hirschbach Business Case - Zoom Contact Center</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="./support.js"></script>
+<style>
+  #auth-gate {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: #000; z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 20px;
+  }
+  #auth-gate.hidden { display: none; }
+  #auth-gate input {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px; padding: 14px 22px;
+    background: #111; border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px; color: #fff; width: 280px;
+    text-align: center; letter-spacing: 0.08em;
+    outline: none; transition: border-color 0.2s;
+  }
+  #auth-gate input:focus { border-color: #FF6E00; }
+  #auth-gate input::placeholder { color: rgba(255,255,255,0.3); }
+  #auth-gate button {
+    font-family: 'Archivo', sans-serif; font-weight: 700;
+    font-size: 15px; padding: 14px 36px;
+    background: #FF6E00; color: #000; border: none;
+    border-radius: 10px; cursor: pointer; letter-spacing: 0.02em;
+    transition: opacity 0.2s;
+  }
+  #auth-gate button:hover { opacity: 0.85; }
+  #auth-gate .error { color: #ff4444; font-size: 13px; height: 18px; }
+  #page-content { display: none; }
+  #page-content.visible { display: block; }
+</style>
+</head>
+<body>
+
+<!-- Password Gate -->
+<div id="auth-gate">
+  <img src="assets/hirschbach-white.png" alt="Hirschbach" style="height:40px; margin-bottom:12px;">
+  <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:8px;">Enter access code</div>
+  <input type="password" id="pw-input" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+  <button onclick="checkPw()">Access</button>
+  <div class="error" id="pw-error"></div>
+</div>
+
+<script>
+function checkPw() {
+  const input = document.getElementById('pw-input').value;
+  if (input === 'HBXZOOM') {
+    document.getElementById('auth-gate').classList.add('hidden');
+    document.getElementById('page-content').classList.add('visible');
+  } else {
+    document.getElementById('pw-error').textContent = 'Incorrect password';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+  }
+}
+</script>
+<div id="page-content">
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #000; }
+  body { font-family: 'IBM Plex Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  ::selection { background: #FF6E00; color: #000; }
+  @keyframes hb-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes hb-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,110,0,0.35); } 50% { box-shadow: 0 0 0 6px rgba(255,110,0,0); } }
+</style>
+</helmet>
+
+<div style="background:#000; color:#fff; width:100%; overflow-x:hidden;">
+
+  <!-- TOP BAR -->
+  <div style="position:sticky; top:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:14px 40px; background:rgba(0,0,0,0.78); backdrop-filter:blur(12px); border-bottom:1px solid rgba(255,255,255,0.08);">
+    <div style="display:flex; align-items:center; gap:16px;">
+      <img src="assets/hirschbach-white.png" alt="Hirschbach" style="height:30px; width:auto; display:block;">
+
+    </div>
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(255,255,255,0.42);">Confidential · Prepared for Hirschbach</div>
+  </div>
+
+  <!-- HERO -->
+  <section style="position:relative; padding:96px 40px 84px; max-width:1180px; margin:0 auto;">
+    <div style="position:absolute; top:-80px; right:-120px; width:520px; height:520px; background:radial-gradient(circle, rgba(255,110,0,0.16), transparent 62%); pointer-events:none;"></div>
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.28em; text-transform:uppercase; color:#FF6E00; margin-bottom:26px;">Zoom Contact Center · Business Case</div>
+    <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:clamp(40px,6.4vw,82px); line-height:0.98; letter-spacing:-0.02em; margin:0 0 28px; max-width:16ch;">Move off 8x8.<br>Keep more cash in the business.</h1>
+    <p style="font-size:19px; line-height:1.55; color:rgba(255,255,255,0.66); max-width:60ch; margin:0 0 48px;">Hirschbach's contact center decision comes down to two numbers and one direction. Both paths off 8x8 cut your monthly spend — here's the case, and exactly what each option costs.</p>
+
+    <div style="display:flex; align-items:flex-end; gap:14px; margin-bottom:54px;">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:10px;">Save up to</div>
+        <div style="font-family:'Archivo',sans-serif; font-weight:900; font-size:clamp(64px,11vw,150px); line-height:0.86; letter-spacing:-0.03em; color:#FF6E00; font-variant-numeric:tabular-nums;">$14,253</div>
+      </div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:700; font-size:clamp(20px,2.4vw,30px); color:rgba(255,255,255,0.85); padding-bottom:14px;">/ month</div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.09); border:1px solid rgba(255,255,255,0.09); border-radius:14px; overflow:hidden;">
+      <div style="background:#0c0c0c; padding:26px 28px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:12px;">8x8 today</div>
+        <div style="font-family:'Archivo',sans-serif; font-weight:800; font-size:34px; font-variant-numeric:tabular-nums;">$36,500<span style="font-size:16px; font-weight:600; color:rgba(255,255,255,0.5);"> /mo</span></div>
+      </div>
+      <div style="background:#0c0c0c; padding:26px 28px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:12px;">Zoom — from</div>
+        <div style="font-family:'Archivo',sans-serif; font-weight:800; font-size:34px; color:#FF6E00; font-variant-numeric:tabular-nums;">$22,247<span style="font-size:16px; font-weight:600; color:rgba(255,255,255,0.5);"> /mo</span></div>
+      </div>
+      <div style="background:#0c0c0c; padding:26px 28px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:12px;">36-month savings, up to</div>
+        <div style="font-family:'Archivo',sans-serif; font-weight:800; font-size:34px; font-variant-numeric:tabular-nums;">$513,099</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE SITUATION -->
+  <section style="padding:72px 40px; border-top:1px solid rgba(255,255,255,0.08); max-width:1180px; margin:0 auto;">
+    <div style="display:grid; grid-template-columns:0.9fr 1.1fr; gap:56px; align-items:start;">
+      <div>
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:#FF6E00; margin-bottom:18px;">01 · The situation</div>
+        <h2 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:clamp(30px,3.6vw,46px); line-height:1.03; letter-spacing:-0.015em; margin:0;">A renewal decision worth $1.3&nbsp;million.</h2>
+      </div>
+      <div>
+        <p style="font-size:18px; line-height:1.65; color:rgba(255,255,255,0.72); margin:0 0 22px;">Hirschbach runs its contact center on 8x8 today at roughly <strong style="color:#fff;">$36,500 per month</strong> — about <strong style="color:#fff;">$1,314,000 over a 36-month term</strong>, billed annually and locked in.</p>
+        <p style="font-size:18px; line-height:1.65; color:rgba(255,255,255,0.72); margin:0;">The choice in front of the team is straightforward: renew with the incumbent, or move that same workload to Zoom Contact Center. Either Zoom path reduces the monthly run-rate. The question is how far you want to take the upgrade — and this page lays out both.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY THE MARKET IS MOVING -->
+  <section style="padding:72px 40px; background:#0a0a0a; border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:1180px; margin:0 auto;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:#FF6E00; margin-bottom:18px;">02 · The incumbent</div>
+      <h2 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:clamp(30px,3.6vw,46px); line-height:1.03; letter-spacing:-0.015em; margin:0 0 14px; max-width:20ch;">Where 8x8 stands today.</h2>
+      <p style="font-size:17px; line-height:1.6; color:rgba(255,255,255,0.6); max-width:64ch; margin:0 0 44px;">A factual read on the incumbent, drawn from public filings and industry analysis — context for a long-term platform commitment.</p>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:18px;">
+        <div style="background:#111; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:26px;">
+          <div style="font-family:'Archivo',sans-serif; font-weight:800; font-size:40px; color:#fff; margin-bottom:10px;">Niche</div>
+          <div style="font-size:14.5px; line-height:1.5; color:rgba(255,255,255,0.6);">Gartner moved 8x8 from Challenger to the <strong style="color:rgba(255,255,255,0.85);">Niche</strong> quadrant for CCaaS in 2022, citing execution gaps.</div>
+        </div>
+        <div style="background:#111; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:26px;">
+          <div style="font-family:'Archivo',sans-serif; font-weight:800; font-size:40px; color:#fff; margin-bottom:10px;">−2%</div>
+          <div style="font-size:14.5px; line-height:1.5; color:rgba(255,255,255,0.6);">Revenue declined year over year to <strong style="color:rgba(255,255,255,0.85);">$715M (FY25)</strong> against $354M of debt.</div>
+        </div>
+        <div style="background:#111; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:26px;">
+          <div style="font-family:'Archivo',sans-serif; font-weight:800; font-size:40px; color:#fff; margin-bottom:10px;">Genesys</div>
+          <div style="font-size:14.5px; line-height:1.5; color:rgba(255,255,255,0.6);">For complex enterprise needs, 8x8 partners <strong style="color:rgba(255,255,255,0.85);">out to Genesys</strong> rather than serving them natively.</div>
+        </div>
+        <div style="background:#111; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:26px;">
+          <div style="font-family:'Archivo',sans-serif; font-weight:800; font-size:40px; color:#fff; margin-bottom:10px;">Add-on</div>
+          <div style="font-size:14.5px; line-height:1.5; color:rgba(255,255,255,0.6);">Advanced AI and intelligent IVR are <strong style="color:rgba(255,255,255,0.85);">priced separately</strong>, lifting the true cost of ownership.</div>
+        </div>
+      </div>
+      <p style="font-size:14px; line-height:1.6; color:rgba(255,255,255,0.4); margin:26px 0 0; max-width:80ch;">8x8 remains a capable voice platform. The considerations above are about platform direction and total cost over a multi-year term — not day-one call quality.</p>
+    </div>
+  </section>
+
+  <!-- THE ZOOM DIFFERENCE -->
+  <section style="padding:72px 40px; border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:1180px; margin:0 auto;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:#FF6E00; margin-bottom:18px;">03 · The platform</div>
+      <h2 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:clamp(30px,3.6vw,46px); line-height:1.03; letter-spacing:-0.015em; margin:0 0 44px; max-width:22ch;">What Zoom Contact Center brings to the table.</h2>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:18px;">
+        <div style="background:#101010; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:30px; border-top:2px solid #FF6E00;">
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:21px; margin:0 0 12px;">AI included, not sold separately</h3>
+          <p style="font-size:15px; line-height:1.6; color:rgba(255,255,255,0.6); margin:0;">AI Companion — summaries, sentiment and agent assist — comes in every tier at no added per-seat cost.</p>
+        </div>
+        <div style="background:#101010; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:30px; border-top:2px solid #FF6E00;">
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:21px; margin:0 0 12px;">Native video routing</h3>
+          <p style="font-size:15px; line-height:1.6; color:rgba(255,255,255,0.6); margin:0;">Route and escalate to live video on Zoom's own media stack — a channel 8x8 simply doesn't offer.</p>
+        </div>
+        <div style="background:#101010; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:30px; border-top:2px solid #FF6E00;">
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:21px; margin:0 0 12px;">One true omnichannel thread</h3>
+          <p style="font-size:15px; line-height:1.6; color:rgba(255,255,255,0.6); margin:0;">Voice, video, chat, SMS, email and social on a single interaction history — pivot channels without losing context.</p>
+        </div>
+        <div style="background:#101010; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:30px; border-top:2px solid #FF6E00;">
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:21px; margin:0 0 12px;">One platform, one admin</h3>
+          <p style="font-size:15px; line-height:1.6; color:rgba(255,255,255,0.6); margin:0;">Phone, Meetings, Workspace and Contact Center under a single client and console — not a cobbling of acquisitions.</p>
+        </div>
+        <div style="background:#101010; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:30px; border-top:2px solid #FF6E00;">
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:21px; margin:0 0 12px;">Low-code flow builder</h3>
+          <p style="font-size:15px; line-height:1.6; color:rgba(255,255,255,0.6); margin:0;">Intelligent, skills-based routing and IVR your team can change in a drag-and-drop canvas — no professional-services ticket.</p>
+        </div>
+        <div style="background:#101010; border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:30px; border-top:2px solid #FF6E00;">
+          <h3 style="font-family:'Archivo',sans-serif; font-weight:700; font-size:21px; margin:0 0 12px;">Transparent monthly billing</h3>
+          <p style="font-size:15px; line-height:1.6; color:rgba(255,255,255,0.6); margin:0;">Payments due monthly — not a year locked up front. Predictable, line-item pricing with no reseller mark-up.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE MATRIX -->
+  <section style="padding:72px 40px; background:#0a0a0a; border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:1180px; margin:0 auto;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:#FF6E00; margin-bottom:18px;">04 · Feature comparison</div>
+      <h2 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:clamp(30px,3.6vw,46px); line-height:1.03; letter-spacing:-0.015em; margin:0 0 36px; max-width:22ch;">License feature comparison, tier by tier.</h2>
+
+      <div style="overflow-x:auto; border:1px solid rgba(255,255,255,0.1); border-radius:16px;">
+        <table style="width:100%; min-width:880px; border-collapse:collapse; font-size:14px;">
+          <thead>
+            <tr style="background:#111;">
+              <th style="text-align:left; padding:18px 20px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.5); font-weight:500; width:170px;">Capability</th>
+              <th style="text-align:left; padding:18px 16px; border-left:1px solid rgba(255,255,255,0.07);"><div style="font-family:'Archivo',sans-serif; font-weight:700; font-size:15px; color:rgba(255,255,255,0.75);">8x8 X6</div><div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:rgba(255,255,255,0.4);">$85/mo</div></th>
+              <th style="text-align:left; padding:18px 16px; border-left:1px solid rgba(255,255,255,0.07);"><div style="font-family:'Archivo',sans-serif; font-weight:700; font-size:15px; color:rgba(255,255,255,0.75);">8x8 X7</div><div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:rgba(255,255,255,0.4);">$110/mo</div></th>
+              <th style="text-align:left; padding:18px 16px; border-left:1px solid rgba(255,255,255,0.07);"><div style="font-family:'Archivo',sans-serif; font-weight:700; font-size:15px; color:rgba(255,255,255,0.75);">8x8 X8</div><div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:rgba(255,255,255,0.4);">$140/mo</div></th>
+              <th style="text-align:left; padding:18px 16px; border-left:2px solid #FF6E00; background:rgba(255,110,0,0.06);"><div style="font-family:'Archivo',sans-serif; font-weight:700; font-size:15px; color:#fff;">Zoom Premium</div><div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#FF6E00;">Like-for-like</div></th>
+              <th style="text-align:left; padding:18px 16px; border-left:1px solid rgba(255,255,255,0.07); background:rgba(255,110,0,0.12);"><div style="font-family:'Archivo',sans-serif; font-weight:700; font-size:15px; color:#fff;">Zoom Elite</div><div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:#FF6E00;">Recommended</div></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-top:1px solid rgba(255,255,255,0.07);"><td style="padding:16px 20px; font-weight:600; color:#fff;">Omnichannel</td><td style="padding:16px; color:rgba(255,255,255,0.55); border-left:1px solid rgba(255,255,255,0.07);">Voice only</td><td style="padding:16px; color:rgba(255,255,255,0.55); border-left:1px solid rgba(255,255,255,0.07);">Voice, SMS, email, social</td><td style="padding:16px; color:rgba(255,255,255,0.55); border-left:1px solid rgba(255,255,255,0.07);">Voice, SMS, email, social</td><td style="padding:16px; color:rgba(255,255,255,0.92); border-left:2px solid #FF6E00; background:rgba(255,110,0,0.04);">+ video, chat</td><td style="padding:16px; color:rgba(255,255,255,0.92); border-left:1px solid rgba(255,255,255,0.07); background:rgba(255,110,0,0.08);">+ video, chat</td></tr>
+            <tr style="border-top:1px solid rgba(255,255,255,0.07);"><td style="padding:16px 20px; font-weight:600; color:#fff;">AI &amp; automation</td><td style="padding:16px; color:rgba(255,255,255,0.55); border-left:1px solid rgba(255,255,255,0.07);">Basic automation</td><td style="padding:16px; color:rgba(255,255,255,0.55); border-left:1px solid rgba(255,255,255,0.07);">Basic automation</td><td style="padding:16px; color:rgba(255,255,255,0.55); border-left:1px solid rgba(255,255,255,0.07);">Speech &amp; text analytics</td><td style="padding:16px; color:rgba(255,255,255,0.92); border-left:2px solid #FF6E00; background:rgba(255,110,0,0.04);">AI Companion included</td><td style="padding:16px; color:rgba(255,255,255,0.92); border-left:1px solid rgba(255,255,255,0.07); background:rgba(255,110,0,0.08);">Advanced AI + Companion</td></tr>
+            <tr style="border-top:1px solid rgba(255,255,255,0.07);"><td style="padding:16px 20px; font-weight:600; color:#fff;">Routing &amp; flow</td><td style="padding:16px; color:rgba(255,255,255,0.55); border-left:1px solid rgba(255,255,255,0.07);">Standard routing</td><td style="padding:16px; color:rgba(255,255,255,0.55); border-left:1px solid rgba(255,255,255,0.07);">Advanced routing</td><td style="padding:16px; color:rgba(255,255,255,0.55); border-left:1px solid rgba(255,255,255,0.07);">Advanced routing</td><td style="padding:16px; color:rgba(255,255,255,0.92); border-left:2px solid #FF6E00; background:rgba(255,110,0,0.04);">Intelligent + low-code</td><td style="padding:16px; color:rgba(255,255,255,0.92); border-left:1px solid rgba(255,255,255,0.07); background:rgba(255,110,0,0.08);">Intelligent + low-code</td></tr>
+            <tr style="border-top:1px solid rgba(255,255,255,0.07);"><td style="padding:16px 20px; font-weight:600; color:#fff;">Quality mgmt</td><td style="padding:16px; color:rgba(255,255,255,0.5); border-left:1px solid rgba(255,255,255,0.07);">Add-on</td><td style="padding:16px; color:rgba(255,255,255,0.5); border-left:1px solid rgba(255,255,255,0.07);">Add-on</td><td style="padding:16px; color:rgba(255,255,255,0.55); border-left:1px solid rgba(255,255,255,0.07);">Included</td><td style="padding:16px; color:rgba(255,255,255,0.92); border-left:2px solid #FF6E00; background:rgba(255,110,0,0.04);">Basic QM included</td><td style="padding:16px; color:rgba(255,255,255,0.92); border-left:1px solid rgba(255,255,255,0.07); background:rgba(255,110,0,0.08);">Advanced QM + WFM</td></tr>
+            <tr style="border-top:1px solid rgba(255,255,255,0.07);"><td style="padding:16px 20px; font-weight:600; color:#fff;">Outbound tools</td><td style="padding:16px; color:rgba(255,255,255,0.5); border-left:1px solid rgba(255,255,255,0.07);">Add-on</td><td style="padding:16px; color:rgba(255,255,255,0.5); border-left:1px solid rgba(255,255,255,0.07);">Add-on</td><td style="padding:16px; color:rgba(255,255,255,0.55); border-left:1px solid rgba(255,255,255,0.07);">Auto-dialer included</td><td style="padding:16px; color:rgba(255,255,255,0.45); border-left:2px solid #FF6E00; background:rgba(255,110,0,0.04);">Not included</td><td style="padding:16px; color:rgba(255,255,255,0.92); border-left:1px solid rgba(255,255,255,0.07); background:rgba(255,110,0,0.08);">Outbound dialer included</td></tr>
+            <tr style="border-top:1px solid rgba(255,255,255,0.07);"><td style="padding:16px 20px; font-weight:600; color:#fff;">Video</td><td style="padding:16px; color:rgba(255,255,255,0.5); border-left:1px solid rgba(255,255,255,0.07);">Not native</td><td style="padding:16px; color:rgba(255,255,255,0.5); border-left:1px solid rgba(255,255,255,0.07);">Not native</td><td style="padding:16px; color:rgba(255,255,255,0.5); border-left:1px solid rgba(255,255,255,0.07);">Not native</td><td style="padding:16px; color:#FF6E00; font-weight:600; border-left:2px solid #FF6E00; background:rgba(255,110,0,0.04);">Native</td><td style="padding:16px; color:#FF6E00; font-weight:600; border-left:1px solid rgba(255,255,255,0.07); background:rgba(255,110,0,0.08);">Native</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:13px; line-height:1.6; color:rgba(255,255,255,0.4); margin:20px 0 0;">All 8x8 prices billed annually; Zoom prices billed monthly. Zoom AI features are included at no extra cost across tiers. Per-seat figures shown are list rates for reference.</p>
+    </div>
+  </section>
+
+  <!-- THE TWO OPTIONS — TOGGLE -->
+  <section style="padding:84px 40px; border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:1180px; margin:0 auto;">
+      <div style="text-align:center; margin-bottom:40px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:#FF6E00; margin-bottom:18px;">05 · Your two paths</div>
+        <h2 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:clamp(30px,3.8vw,50px); line-height:1.02; letter-spacing:-0.015em; margin:0 0 16px;">Choose your path off 8x8.</h2>
+        <p style="font-size:18px; line-height:1.55; color:rgba(255,255,255,0.62); max-width:58ch; margin:0 auto;">Both options replace 8x8 and lower your monthly spend. Toggle between them to see the full proposal.</p>
+      </div>
+
+      <!-- toggle -->
+      <div style="display:flex; justify-content:center; margin-bottom:44px;">
+        <div id="toggle-wrap" style="position:relative; display:flex; background:#161616; border:1px solid rgba(255,255,255,0.12); border-radius:999px; padding:5px; width:360px;">
+          <div id="toggle-knob" style="position:absolute; top:5px; bottom:5px; left:5px; width:calc(50% - 5px); background:#FF6E00; border-radius:999px; transition:transform 0.28s cubic-bezier(0.4,0,0.2,1); transform:translateX(100%);"></div>
+          <button id="btn-premium" onclick="selectPlan('premium')" style="position:relative; z-index:2; flex:1; border:0; background:transparent; cursor:pointer; padding:13px 0; font-family:'Archivo',sans-serif; font-size:15px; letter-spacing:0.02em; color:rgba(255,255,255,0.55); font-weight:600;">Premium</button>
+          <button id="btn-elite" onclick="selectPlan('elite')" style="position:relative; z-index:2; flex:1; border:0; background:transparent; cursor:pointer; padding:13px 0; font-family:'Archivo',sans-serif; font-size:15px; letter-spacing:0.02em; color:#000; font-weight:800;">Elite</button>
+        </div>
+      </div>
+
+      <!-- proposal card -->
+      <div id="proposal-card" style="position:relative; background:linear-gradient(180deg,#131313,#0d0d0d); border:1px solid rgba(255,110,0,0.45); border-radius:22px; overflow:hidden;">
+        <div style="position:absolute; top:0; left:0; right:0; height:3px; background:#FF6E00;"></div>
+        <div style="display:grid; grid-template-columns:1.05fr 0.95fr;">
+          <!-- left: identity + price -->
+          <div style="padding:48px 48px 44px; border-right:1px solid rgba(255,255,255,0.08);">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:22px;">
+              <div id="plan-accent" style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:#FF6E00;">The forward-thinking choice</div>
+              <span id="recommended-badge" style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:#000; background:#FF6E00; padding:4px 9px; border-radius:5px; font-weight:600; animation:hb-pulse 2.4s infinite;">★ Recommended</span>
+            </div>
+            <h3 style="font-family:'Archivo',sans-serif; font-weight:900; font-size:54px; line-height:0.95; letter-spacing:-0.02em; margin:0 0 6px;">Zoom Contact Center</h3>
+            <div id="plan-name" style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:0.95; color:#FF6E00; margin:0 0 20px;">Elite</div>
+            <p id="plan-tagline" style="font-size:16.5px; line-height:1.55; color:rgba(255,255,255,0.65); margin:0 0 36px; max-width:38ch;">Everything in Premium, plus the AI-powered workforce engagement suite — and it still beats your 8x8 spend.</p>
+
+            <div style="display:flex; align-items:flex-end; gap:10px; margin-bottom:8px;">
+              <div id="plan-monthly" style="font-family:'Archivo',sans-serif; font-weight:900; font-size:72px; line-height:0.9; letter-spacing:-0.03em; font-variant-numeric:tabular-nums;">$29,986</div>
+              <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:22px; color:rgba(255,255,255,0.5); padding-bottom:10px;">/ month</div>
+            </div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.45); margin-bottom:32px;">Billed monthly · all-in licensing &amp; usage</div>
+
+            <div id="plan-breakdown" style="display:flex; flex-direction:column; gap:1px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.08); border-radius:12px; overflow:hidden;">
+            </div>
+          </div>
+
+          <!-- right: savings + features -->
+          <div style="padding:48px; background:rgba(255,110,0,0.04);">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.1); border-radius:14px; overflow:hidden; margin-bottom:34px;">
+              <div style="background:#0e0e0e; padding:24px;">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:10px;">vs 8x8 / month</div>
+                <div id="plan-savings-monthly" style="font-family:'Archivo',sans-serif; font-weight:800; font-size:32px; color:#FF6E00; font-variant-numeric:tabular-nums;">−$6,514</div>
+              </div>
+              <div style="background:#0e0e0e; padding:24px;">
+                <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:rgba(255,255,255,0.45); margin-bottom:10px;">36-mo savings</div>
+                <div id="plan-savings-36" style="font-family:'Archivo',sans-serif; font-weight:800; font-size:32px; color:#fff; font-variant-numeric:tabular-nums;">$234,504</div>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:baseline; padding-bottom:18px; margin-bottom:22px; border-bottom:1px solid rgba(255,255,255,0.1);">
+              <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.5);">36-month total cost</span>
+              <span id="plan-tco" style="font-family:'Archivo',sans-serif; font-weight:800; font-size:26px; font-variant-numeric:tabular-nums;">$1,079,496</span>
+            </div>
+
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:18px;">What's included</div>
+            <div id="plan-features" style="display:flex; flex-direction:column; gap:13px;">
+            </div>
+          </div>
+        </div>
+      </div>
+      <p id="plan-footnote" style="text-align:center; font-size:14px; line-height:1.6; color:rgba(255,255,255,0.45); margin:26px auto 0; max-width:70ch;">Elite positions Hirschbach as an innovative, AI-first operation — advanced analytics, workforce management and outbound — while still removing $234,504 from the 36-month run-rate.</p>
+    </div>
+  </section>
+
+  <!-- 36-MONTH TCO BARS -->
+  <section style="padding:72px 40px 96px; background:#0a0a0a; border-top:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:1180px; margin:0 auto;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:#FF6E00; margin-bottom:18px;">06 · Total cost of ownership</div>
+      <h2 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:clamp(30px,3.6vw,46px); line-height:1.03; letter-spacing:-0.015em; margin:0 0 44px; max-width:20ch;">36 months, side by side.</h2>
+
+      <div style="display:flex; flex-direction:column; gap:26px;">
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px;">
+            <span style="font-family:'Archivo',sans-serif; font-weight:700; font-size:18px; color:rgba(255,255,255,0.7);">8x8 — renew</span>
+            <span style="font-family:'Archivo',sans-serif; font-weight:800; font-size:24px; font-variant-numeric:tabular-nums; color:rgba(255,255,255,0.7);">$1,314,000</span>
+          </div>
+          <div style="height:26px; border-radius:6px; background:rgba(255,255,255,0.16); width:100%;"></div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px;">
+            <span style="font-family:'Archivo',sans-serif; font-weight:700; font-size:18px;">Zoom Elite <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#FF6E00; border:1px solid rgba(255,110,0,0.5); padding:2px 7px; border-radius:4px; margin-left:8px;">Recommended</span></span>
+            <span style="font-family:'Archivo',sans-serif; font-weight:800; font-size:24px; font-variant-numeric:tabular-nums;">$1,079,496</span>
+          </div>
+          <div style="height:26px; border-radius:6px; background:linear-gradient(90deg,#FF6E00,#ff9248); width:82.2%;"></div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:rgba(255,255,255,0.5); margin-top:8px;">Saves $234,504 over 36 months — and adds AI-powered WEM, advanced analytics &amp; outbound.</div>
+        </div>
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px;">
+            <span style="font-family:'Archivo',sans-serif; font-weight:700; font-size:18px;">Zoom Premium <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.5); border:1px solid rgba(255,255,255,0.2); padding:2px 7px; border-radius:4px; margin-left:8px;">Max savings</span></span>
+            <span style="font-family:'Archivo',sans-serif; font-weight:800; font-size:24px; font-variant-numeric:tabular-nums;">$800,901</span>
+          </div>
+          <div style="height:26px; border-radius:6px; background:linear-gradient(90deg,#cc5800,#FF6E00); width:60.9%;"></div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:rgba(255,255,255,0.5); margin-top:8px;">Saves $513,099 over 36 months — like-for-like replacement of 8x8.</div>
+        </div>
+      </div>
+
+      <!-- closing -->
+      <div style="margin-top:72px; padding-top:48px; border-top:1px solid rgba(255,255,255,0.1); display:grid; grid-template-columns:0.8fr 1.2fr; gap:48px; align-items:center;">
+        <h3 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:clamp(26px,3vw,38px); line-height:1.05; letter-spacing:-0.015em; margin:0;">Either way, Hirschbach wins.</h3>
+        <p style="font-size:18px; line-height:1.65; color:rgba(255,255,255,0.7); margin:0;"><strong style="color:#fff;">Premium</strong> maximizes savings — over half a million dollars across the term — as a clean, like-for-like replacement of 8x8. <strong style="color:#FF6E00;">Elite</strong> still cuts $6,514 every month while making Hirschbach an AI-powered, forward-thinking operation with workforce management, advanced analytics and native video. The savings get you the meeting; Elite is what gets you ahead.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <div style="padding:28px 40px; border-top:1px solid rgba(255,255,255,0.08); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+    <div style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(255,255,255,0.35);">Zoom × Hirschbach · Confidential business case</div>
+
+  </div>
+
+</div>
+
+<script>
+const plans = {
+  premium: {
+    name: 'Premium',
+    accentLabel: 'Maximum savings',
+    tagline: 'The like-for-like replacement for 8x8 — every channel they run today, for thousands less each month.',
+    monthly: '$22,247',
+    tco: '$800,901',
+    savingsMonthly: '−$14,253',
+    savings36: '$513,099',
+    footnote: 'Premium gives Hirschbach the strongest possible savings case — the fastest way to get the renewal conversation in front of the CFO.',
+    breakdown: [
+      { label: 'Zoom Workplace Business · 10 seats', amount: '$225' },
+      { label: 'Zoom Phone · 311 lines', amount: '$3,701' },
+      { label: 'Zoom Contact Center Premium · 205 agents', amount: '$18,321' },
+      { label: 'Monthly total', amount: '$22,247' },
+    ],
+    features: [
+      { label: 'True omnichannel — voice, video, chat, SMS, email & social', up: false },
+      { label: 'AI Companion included — summaries, sentiment & agent assist', up: false },
+      { label: 'Intelligent routing + low-code flow builder', up: false },
+      { label: 'Quality Management (basic) included', up: false },
+      { label: 'Real-time analytics', up: false },
+      { label: 'Native video engagement', up: false },
+      { label: 'CRM integrations + open APIs', up: false },
+    ],
+  },
+  elite: {
+    name: 'Elite',
+    accentLabel: 'The forward-thinking choice',
+    tagline: 'Everything in Premium, plus the AI-powered workforce engagement suite — and it still beats your 8x8 spend.',
+    monthly: '$29,986',
+    tco: '$1,079,496',
+    savingsMonthly: '−$6,514',
+    savings36: '$234,504',
+    footnote: 'Elite positions Hirschbach as an innovative, AI-first operation — advanced analytics, workforce management and outbound — while still removing $234,504 from the 36-month run-rate.',
+    breakdown: [
+      { label: 'Zoom Workplace Business · 10 seats', amount: '$225' },
+      { label: 'Zoom Phone · 311 lines', amount: '$3,701' },
+      { label: 'Zoom Contact Center Elite · 205 agents', amount: '$26,060' },
+      { label: 'Monthly total', amount: '$29,986' },
+    ],
+    features: [
+      { label: 'Everything in Premium, included', up: false },
+      { label: 'AI Expert Assist — real-time agent guidance', up: true },
+      { label: 'Workforce Management — forecasting & scheduling', up: true },
+      { label: 'Advanced Quality Management', up: true },
+      { label: 'Advanced AI-powered analytics', up: true },
+      { label: 'Outbound dialer included', up: true },
+    ],
+  },
+};
+
+let currentPlan = 'elite';
+
+function selectPlan(plan) {
+  currentPlan = plan;
+  render();
+}
+
+function render() {
+  const p = plans[currentPlan];
+  const isElite = currentPlan === 'elite';
+
+  // Toggle knob
+  document.getElementById('toggle-knob').style.transform = isElite ? 'translateX(100%)' : 'translateX(0)';
+
+  // Button styles
+  const btnP = document.getElementById('btn-premium');
+  const btnE = document.getElementById('btn-elite');
+  btnP.style.color = isElite ? 'rgba(255,255,255,0.55)' : '#000';
+  btnP.style.fontWeight = isElite ? '600' : '800';
+  btnE.style.color = isElite ? '#000' : 'rgba(255,255,255,0.55)';
+  btnE.style.fontWeight = isElite ? '800' : '600';
+
+  // Card border
+  document.getElementById('proposal-card').style.borderColor = isElite ? 'rgba(255,110,0,0.45)' : 'rgba(255,255,255,0.1)';
+
+  // Content
+  document.getElementById('plan-accent').textContent = p.accentLabel;
+  document.getElementById('recommended-badge').style.display = isElite ? 'inline' : 'none';
+  document.getElementById('plan-name').textContent = p.name;
+  document.getElementById('plan-tagline').textContent = p.tagline;
+  document.getElementById('plan-monthly').textContent = p.monthly;
+  document.getElementById('plan-savings-monthly').textContent = p.savingsMonthly;
+  document.getElementById('plan-savings-36').textContent = p.savings36;
+  document.getElementById('plan-tco').textContent = p.tco;
+  document.getElementById('plan-footnote').textContent = p.footnote;
+
+  // Breakdown
+  const bd = document.getElementById('plan-breakdown');
+  bd.innerHTML = p.breakdown.map(b => `
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; background:#0e0e0e; padding:14px 18px;">
+      <span style="font-size:14.5px; color:rgba(255,255,255,0.72);">${b.label}</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:#fff; font-variant-numeric:tabular-nums; white-space:nowrap;">${b.amount}</span>
+    </div>
+  `).join('');
+
+  // Features
+  const ft = document.getElementById('plan-features');
+  ft.innerHTML = p.features.map(f => `
+    <div style="display:flex; align-items:flex-start; gap:12px;">
+      <span style="flex:none; width:18px; height:18px; border-radius:50%; background:#FF6E00; color:#000; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; margin-top:2px;">✓</span>
+      <span style="font-size:15px; line-height:1.45; color:rgba(255,255,255,0.85);">${f.label}</span>
+      ${f.up ? '<span style="flex:none; font-family:\'IBM Plex Mono\',monospace; font-size:9.5px; letter-spacing:0.08em; text-transform:uppercase; color:#FF6E00; border:1px solid rgba(255,110,0,0.5); padding:2px 6px; border-radius:4px; margin-left:2px; align-self:center;">Upgrade</span>' : ''}
+    </div>
+  `).join('');
+}
+
+// Initial render
+document.addEventListener('DOMContentLoaded', render);
+render();
+</script>
+</div>
+</body>
+</html>
